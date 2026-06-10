@@ -1,0 +1,144 @@
+:root {
+  color-scheme: light;
+  --bg: #f5f1e9;
+  --panel: #fffdf8;
+  --text: #22211d;
+  --muted: #66645e;
+  --line: #ded7c9;
+  --accent: #1d766f;
+  --accent-dark: #12544f;
+  --shadow: 0 18px 55px rgba(34, 33, 29, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.site-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.topbar {
+  background: #ece4d4;
+  border-bottom: 1px solid var(--line);
+  padding: 22px 28px 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: end;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 34px;
+  line-height: 1.05;
+}
+
+.topbar p,
+.welcome p:not(.eyebrow) {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tab,
+.button {
+  border-radius: 8px;
+  font-weight: 800;
+  min-height: 44px;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--text);
+}
+
+.tab:hover,
+.tab.active,
+.button {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.button:hover {
+  background: var(--accent-dark);
+}
+
+.home {
+  padding: 28px;
+  display: grid;
+  place-items: center;
+}
+
+.welcome {
+  max-width: 760px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 34px;
+  display: grid;
+  gap: 18px;
+  text-align: center;
+}
+
+.eyebrow {
+  color: var(--accent-dark);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.welcome h2 {
+  font-size: 56px;
+  line-height: 1;
+}
+
+.welcome .button {
+  justify-self: center;
+}
+
+@media (max-width: 720px) {
+  .topbar {
+    grid-template-columns: 1fr;
+  }
+
+  .tabs {
+    width: 100%;
+  }
+
+  .tab {
+    flex: 1 1 140px;
+  }
+
+  .welcome h2 {
+    font-size: 40px;
+  }
+}

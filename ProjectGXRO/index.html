@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project GXRO</title>
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <link rel="apple-touch-icon" href="../assets/favicon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section class="password-screen" id="passwordScreen">
+    <form class="password-card" id="passwordForm">
+      <p class="eyebrow">Private Page</p>
+      <h1>Project GXRO</h1>
+      <p>Enter the password to open the Project GXRO music library.</p>
+      <input class="password-input" id="passwordInput" type="password" placeholder="Password" autocomplete="current-password">
+      <button class="button" type="submit">Unlock Project GXRO</button>
+      <p class="password-error" id="passwordError" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <div class="app-shell locked" id="appShell">
+    <header class="topbar">
+      <div class="brand">
+        <h1>Project GXRO</h1>
+        <p class="subtitle">A secret website of my bs covers and parodies where I can get cancelled IRL.</p>
+      </div>
+
+      <nav class="tabs" aria-label="Project GXRO pages">
+        <button class="tab-button active" type="button" data-tab="gxro-home">Project GXRO</button>
+        <button class="tab-button" type="button" data-tab="add">Add MP3</button>
+        <button class="tab-button" type="button" data-tab="library">Library</button>
+      </nav>
+    </header>
+
+    <main class="main">
+      <section class="tab-panel active" id="gxroHomePanel" data-panel="gxro-home">
+        <div class="home-layout">
+          <img class="home-cover" src="assets/buccees_gxro.JPG" onerror="this.src='assets/phonto.heic.png'" alt="Project GXRO cover image">
+          <div class="home-copy">
+            <p class="eyebrow">Project GXRO</p>
+            <h2>ProjectGXRO</h2>
+            <p>
+              Welcome to my secret website of Project GXRO. This is the website where you can view all of my BS covers and parodies of different songs.
+              Yes, I may have graduated with a B.S., I may seem smart on the outside, but look at this bs... No not my bachelors, but my actual bs that I made... Yeah im cooked...
+            </p>
+            <p>
+              Listen to the new Project GXRO Songs today! From hot artists such as GXRO himself, AT&amp;T, Trippie O' myANKLS, NIG Chigga, OPH125, Bo'oh'o'wa'er, CWS, and many more to come.
+            </p>
+            <p>
+              "Hey chat. Do you think were cooking? Or are we cooked? Yeahhh... I dont know" ~Lyrics from Arro Cooking Show - GXRO
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="addPanel" data-panel="add">
+        <div class="add-grid">
+          <aside class="upload-panel">
+            <label class="drop-zone" id="dropZone" for="fileInput">
+              <span class="upload-icon">+</span>
+              <span class="drop-title">Drop MP3 files here</span>
+              <p class="drop-copy">You can also choose files from your computer. Everything stays on this device.</p>
+              <span class="button">Choose MP3 Files</span>
+            </label>
+            <input id="fileInput" type="file" accept=".mp3,audio/mpeg" multiple>
+
+            <div class="stats" aria-live="polite">
+              <div class="stat">
+                <span class="stat-value" id="trackCount">0</span>
+                <span class="stat-label">Tracks</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value" id="totalSize">0 MB</span>
+                <span class="stat-label">Total size</span>
+              </div>
+            </div>
+
+            <p class="save-status" id="saveStatus">Saved songs will load again in this browser.</p>
+          </aside>
+
+          <section class="details-panel" id="detailsPanel" aria-label="Song details">
+            <div class="details-empty">
+              <strong>Select or add a song to edit details</strong>
+              Rename it, add artist and album info, write a synopsis, add lyrics, and attach cover art.
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="libraryPanel" data-panel="library">
+        <div class="library-header">
+          <input class="search" id="searchInput" type="search" placeholder="Search by song name, artist, or album">
+          <button class="button clear" id="clearButton" type="button">Clear Library</button>
+        </div>
+
+        <section class="player" aria-label="Audio player">
+          <div class="now-playing" id="nowPlaying">No track selected</div>
+          <audio id="audioPlayer" controls></audio>
+        </section>
+
+        <section class="library" id="library" aria-live="polite">
+          <div class="empty">
+            <div>
+              <strong>Your MP3 names will show here in order</strong>
+              Add files from the Add MP3 tab.
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
