@@ -8,7 +8,7 @@
   --muted: #64685f;
   --line: #d7d0bf;
   --accent: #26b21f;
-  --accent-dark: #353d2e;
+  --accent-dark: #373b33;
   --accent-soft: #e4ead8;
   --ink: #171916;
   --cream: #fff8e8;
@@ -135,6 +135,7 @@ h1 {
   flex-wrap: wrap;
 }
 
+.tab-link,
 .tab-button,
 .button {
   appearance: none;
@@ -146,6 +147,19 @@ h1 {
   min-height: 44px;
   padding: 12px 16px;
   transition: background 140ms ease, color 140ms ease, transform 140ms ease;
+}
+
+.tab-link {
+  background: var(--ink);
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-link:hover {
+  background: var(--accent-dark);
 }
 
 .tab-button {
