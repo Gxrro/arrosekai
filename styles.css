@@ -1,13 +1,16 @@
 :root {
   color-scheme: light;
-  --bg: #f5f1e9;
-  --panel: #fffdf8;
-  --text: #22211d;
-  --muted: #66645e;
-  --line: #ded7c9;
-  --accent: #1d766f;
-  --accent-dark: #12544f;
-  --shadow: 0 18px 55px rgba(34, 33, 29, 0.12);
+  --bg: #f2eddf;
+  --panel: #fffaf0;
+  --panel-soft: #f7f0e1;
+  --text: #171916;
+  --muted: #64685f;
+  --line: #d7d0bf;
+  --accent: #26b21f;
+  --accent-dark: #3f5131;
+  --cream: #fff8e8;
+  --gray: #7d8279;
+  --shadow: 0 18px 50px rgba(23, 25, 22, 0.14);
 }
 
 * {
@@ -18,7 +21,10 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg);
+  background:
+    linear-gradient(rgba(242, 237, 223, 0.84), rgba(242, 237, 223, 0.92)),
+    repeating-linear-gradient(90deg, rgba(63, 81, 49, 0.05) 0 1px, transparent 1px 42px),
+    var(--bg);
   color: var(--text);
 }
 
@@ -29,13 +35,14 @@ body {
 }
 
 .topbar {
-  background: #ece4d4;
+  background: rgba(255, 250, 240, 0.92);
   border-bottom: 1px solid var(--line);
   padding: 22px 28px 16px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 20px;
   align-items: end;
+  backdrop-filter: blur(14px);
 }
 
 h1,
@@ -47,6 +54,7 @@ p {
 h1 {
   font-size: 34px;
   line-height: 1.05;
+  color: var(--accent-dark);
 }
 
 .topbar p,
@@ -74,7 +82,7 @@ h1 {
 }
 
 .tab {
-  background: var(--panel);
+  background: var(--cream);
   border: 1px solid var(--line);
   color: var(--text);
 }
@@ -99,11 +107,12 @@ h1 {
 
 .welcome {
   max-width: 760px;
-  background: var(--panel);
+  background:
+    linear-gradient(145deg, rgba(255, 250, 240, 0.98), rgba(247, 240, 225, 0.94));
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: var(--shadow);
-  padding: 34px;
+  padding: 42px;
   display: grid;
   gap: 18px;
   text-align: center;
@@ -119,6 +128,7 @@ h1 {
 .welcome h2 {
   font-size: 56px;
   line-height: 1;
+  color: var(--accent-dark);
 }
 
 .welcome .button {
