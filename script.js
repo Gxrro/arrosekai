@@ -1,5 +1,8 @@
 const sectionLinks = document.querySelectorAll("[data-section-link]");
 const sections = document.querySelectorAll("[data-section]");
+const gxroGate = document.getElementById("gxroGate");
+const gxroPassword = document.getElementById("gxroPassword");
+const gxroGateMessage = document.getElementById("gxroGateMessage");
 
 function setActiveSection(sectionId) {
   sectionLinks.forEach((link) => {
@@ -21,3 +24,18 @@ const observer = new IntersectionObserver((entries) => {
 });
 
 sections.forEach((section) => observer.observe(section));
+
+if (gxroGate) {
+  gxroGate.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (gxroPassword.value.trim().toLowerCase() === "december") {
+      sessionStorage.setItem("projectGXROUnlocked", "true");
+      window.location.href = "ProjectGXRO/index.html?tab=gxro-home";
+      return;
+    }
+
+    gxroGateMessage.textContent = "Incorrect password. Try december.";
+    gxroPassword.select();
+  });
+}
