@@ -351,6 +351,9 @@ function render(includeDetails = true) {
 
   library.innerHTML = visibleTracks.map((track) => `
     <article class="song ${track.id === activeTrackId ? "active" : ""}" data-track-id="${track.id}" tabindex="0">
+      <div class="song-cover-thumb">
+        ${track.coverUrl ? `<img src="${track.coverUrl}" alt="${escapeHtml(track.name)} cover image">` : "♪"}
+      </div>
       <button class="play-button" type="button" data-play-track-id="${track.id}" aria-label="Play ${escapeAttribute(track.name)}">
         ${track.id === playingTrackId ? "II" : ">"}
       </button>

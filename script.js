@@ -1,41 +1,34 @@
-const sectionLinks = document.querySelectorAll("[data-section-link]");
+const activeNavLinks = document.querySelectorAll(".nav-item[data-section-link], .gxro-link[data-section-link], .site-name[data-section-link]");
+const sectionTriggers = document.querySelectorAll("[data-section-link]");
 const sections = document.querySelectorAll("[data-section]");
-const gxroGate = document.getElementById("gxroGate");
-const gxroPassword = document.getElementById("gxroPassword");
-const gxroGateMessage = document.getElementById("gxroGateMessage");
 
-function setActiveSection(sectionId) {
-  sectionLinks.forEach((link) => {
+function setActiveSection(sectionId, updateHash = true) {
+  const target = document.querySelector(`[data-section="${sectionId}"]`);
+  if (!target) return;
+
+  sections.forEach((section) => {
+    section.classList.toggle("active-panel", section.dataset.section === sectionId);
+  });
+
+  activeNavLinks.forEach((link) => {
     link.classList.toggle("active", link.dataset.sectionLink === sectionId);
   });
+
+  if (updateHash) {
+    history.replaceState(null, "", `#${sectionId}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 }
 
-const observer = new IntersectionObserver((entries) => {
-  const visible = entries
-    .filter((entry) => entry.isIntersecting)
-    .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+sectionTriggers.forEach((trigger) => {
+  trigger.addEventListener("click", (event) => {
+    const sectionId = trigger.dataset.sectionLink;
+    if (!sectionId || !document.querySelector(`[data-section="${sectionId}"]`)) return;
 
-  if (visible) {
-    setActiveSection(visible.target.dataset.section);
-  }
-}, {
-  root: null,
-  threshold: [0.28, 0.45, 0.62]
+    event.preventDefault();
+    setActiveSection(sectionId);
+  });
 });
 
-sections.forEach((section) => observer.observe(section));
-
-if (gxroGate) {
-  gxroGate.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    if (gxroPassword.value.trim().toLowerCase() === "december") {
-      sessionStorage.setItem("projectGXROUnlocked", "true");
-      window.location.href = "ProjectGXRO/index.html?tab=gxro-home";
-      return;
-    }
-
-    gxroGateMessage.textContent = "Incorrect password. Try december.";
-    gxroPassword.select();
-  });
-}
+const initialSection = window.location.hash.replace("#", "") || "home";
+setActiveSection(initialSection, false);

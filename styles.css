@@ -185,6 +185,14 @@ a {
   border-bottom: 1px solid rgba(216, 207, 186, 0.62);
 }
 
+.section-panel:not(.active-panel) {
+  display: none;
+}
+
+.section-panel.active-panel {
+  display: grid;
+}
+
 .hero-section,
 .gxro-gate-section {
   display: grid;
@@ -587,6 +595,70 @@ h3 {
   gap: 26px;
 }
 
+.gxro-portal-card {
+  width: min(100%, 980px);
+  min-height: 132px;
+  margin-top: 34px;
+  padding: 22px;
+  border: 1px solid rgba(88, 119, 79, 0.45);
+  border-radius: 26px;
+  background:
+    linear-gradient(135deg, rgba(36, 31, 25, 0.96), rgba(88, 119, 79, 0.78)),
+    var(--text);
+  box-shadow: 0 24px 70px rgba(36, 31, 25, 0.18);
+  color: var(--panel-light);
+  text-decoration: none;
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+}
+
+.gxro-portal-card:hover {
+  transform: translateY(-2px);
+}
+
+.gxro-portal-orb {
+  width: 76px;
+  height: 76px;
+  border: 1px solid rgba(191, 255, 79, 0.72);
+  border-radius: 22px;
+  background: radial-gradient(circle, rgba(191, 255, 79, 0.4), rgba(88, 119, 79, 0.2));
+  color: #dfff74;
+  font-family: "Courier New", monospace;
+  font-size: 24px;
+  font-weight: 900;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 28px rgba(191, 255, 79, 0.28);
+}
+
+.gxro-portal-card strong {
+  display: block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-style: italic;
+}
+
+.gxro-portal-card em {
+  display: block;
+  margin-top: 6px;
+  color: rgba(251, 246, 233, 0.72);
+  font-style: normal;
+  line-height: 1.4;
+}
+
+.gxro-portal-card i {
+  min-height: 44px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: #bfff4f;
+  color: #151712;
+  font-style: normal;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
 .cover-card {
   overflow: hidden;
 }
@@ -893,6 +965,7 @@ h3 {
   .about-layout,
   .facts-grid,
   .cover-grid,
+  .gxro-portal-card,
   .hobby-grid,
   .skills-grid,
   .project-grid,
@@ -900,6 +973,11 @@ h3 {
   .social-row,
   .social-row.compact {
     grid-template-columns: 1fr;
+  }
+
+  .gxro-portal-card {
+    text-align: center;
+    justify-items: center;
   }
 
   .timeline-list {

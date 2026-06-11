@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arro-Sekai</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=6">
-  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
   <div class="portfolio-shell">
     <aside class="sidebar" aria-label="Arro-Sekai sidebar">
       <div class="identity">
         <p class="est"><span class="leaf">◇</span> EST. 2024</p>
-        <a class="site-name" href="#home">Arro-Sekai</a>
+        <a class="site-name" href="#home" data-section-link="home">Arro-Sekai</a>
       </div>
 
       <nav class="side-nav" aria-label="Portfolio sections">
@@ -27,13 +27,13 @@
       </nav>
 
       <div class="sidebar-footer">
-        <a class="gxro-link" href="#gxro" data-section-link="gxro">✦ Project GXRO</a>
+        <a class="gxro-link" href="#music" data-section-link="music">✦ Project GXRO</a>
         <p>brewing something warm</p>
       </div>
     </aside>
 
     <main class="content">
-      <section class="section-panel hero-section" id="home" data-section="home">
+      <section class="section-panel hero-section active-panel" id="home" data-section="home">
         <div class="seal" aria-hidden="true"><span>◇</span></div>
         <p class="hero-kicker">Artist · Creator · Dreamer</p>
         <h1><span>Arro</span>-Sekai</h1>
@@ -42,13 +42,13 @@
           Making things that feel like something warm, one cup at a time.
         </p>
         <div class="social-row" aria-label="Social links">
-          <a class="social-chip" href="#contact"><span>in</span>LinkedIn</a>
-          <a class="social-chip" href="#contact"><span>◎</span>Instagram</a>
-          <a class="social-chip" href="#music"><span>▻</span>YouTube</a>
-          <a class="social-chip" href="#music"><span>♫</span>Spotify</a>
-          <a class="social-chip" href="#contact"><span>◌</span>Discord</a>
+          <a class="social-chip" href="#contact" data-section-link="contact"><span>in</span>LinkedIn</a>
+          <a class="social-chip" href="#contact" data-section-link="contact"><span>◎</span>Instagram</a>
+          <a class="social-chip" href="#music" data-section-link="music"><span>▻</span>YouTube</a>
+          <a class="social-chip" href="#music" data-section-link="music"><span>♫</span>Spotify</a>
+          <a class="social-chip" href="#contact" data-section-link="contact"><span>◌</span>Discord</a>
         </div>
-        <div class="scroll-note" aria-hidden="true"><span></span>scroll to explore<span></span></div>
+        <div class="scroll-note" aria-hidden="true"><span></span>choose a tab<span></span></div>
       </section>
 
       <section class="section-panel about-section" id="about" data-section="about">
@@ -155,7 +155,15 @@
       <section class="section-panel music-section" id="music" data-section="music">
         <p class="section-kicker">Listen & Watch</p>
         <h2>Music Covers</h2>
-        <p class="section-intro">A collection of vocal and instrumental covers. Public MP3s live inside Project GXRO's public track list.</p>
+        <p class="section-intro">A collection of vocal and instrumental covers. Project GXRO is the private music vault for MP3 uploads, covers, lyrics, and song details.</p>
+        <a class="gxro-portal-card" href="ProjectGXRO/index.html?tab=gxro-home">
+          <span class="gxro-portal-orb">GX</span>
+          <span>
+            <strong>Open Project GXRO</strong>
+            <em>Password protected with december</em>
+          </span>
+          <i>Enter Vault</i>
+        </a>
         <div class="cover-grid">
           <article class="cover-card">
             <div class="cover-art green-art"><button aria-label="Play cover">▷</button></div>
@@ -256,33 +264,21 @@
         </div>
       </section>
 
-      <section class="section-panel gxro-gate-section" id="gxro" data-section="gxro">
-        <form class="gxro-gate" id="gxroGate">
-          <div class="lock-badge">▢</div>
-          <p class="section-kicker">Private Garden</p>
-          <h2>Project GXRO</h2>
-          <p>This is the vault. The unfiltered archive. You were not supposed to find this, but here you are.</p>
-          <input id="gxroPassword" type="password" placeholder="whisper the secret..." autocomplete="current-password">
-          <button class="enter-button" type="submit">Enter</button>
-          <small id="gxroGateMessage" aria-live="polite"></small>
-        </form>
-      </section>
-
       <section class="section-panel contact-section" id="contact" data-section="contact">
         <p class="section-kicker">Contact</p>
         <h2>Pull up a chair.</h2>
         <div class="contact-card">
           <p>Add socials, email, or a Discord link here when you want. For now, this is the public contact space for Arro-Sekai.</p>
           <div class="social-row compact">
-            <a class="social-chip" href="#contact"><span>in</span>LinkedIn</a>
-            <a class="social-chip" href="#contact"><span>◎</span>Instagram</a>
-            <a class="social-chip" href="#music"><span>▻</span>YouTube</a>
+            <a class="social-chip" href="#contact" data-section-link="contact"><span>in</span>LinkedIn</a>
+            <a class="social-chip" href="#contact" data-section-link="contact"><span>◎</span>Instagram</a>
+            <a class="social-chip" href="#music" data-section-link="music"><span>▻</span>YouTube</a>
           </div>
         </div>
       </section>
     </main>
   </div>
 
-  <script src="script.js?v=6"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>
