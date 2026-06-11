@@ -21,6 +21,7 @@ const DB_NAME = "ProjectGXROStorage";
 const DB_VERSION = 1;
 const TRACK_STORE = "tracks";
 const GXRO_PASSWORD = "december";
+const PUBLIC_TRACKS_URL = "public-tracks.json";
 
 let tracks = [];
 let activeTrackId = null;
@@ -36,6 +37,12 @@ function cleanName(fileName) {
 function formatSize(bytes) {
   if (!bytes) return "0 MB";
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
+function getTrackFileName(track) {
+  if (track.file && track.file.name) return track.file.name;
+  if (track.url) return track.url.split("/").pop();
+  return "Public MP3";
 }
 
 function addFiles(fileList) {
@@ -55,7 +62,8 @@ function addFiles(fileList) {
     coverUrl: "",
     coverName: "",
     size: file.size,
-    url: URL.createObjectURL(file)
+    url: URL.createObjectURL(file),
+    isPublic: false
   }));
 
   tracks = [...tracks, ...newTracks].sort((a, b) => a.name.localeCompare(b.name));
@@ -71,6 +79,45 @@ function addFiles(fileList) {
 
   render();
   scheduleSave();
+}
+
+async function loadPublicTracks() {
+  try {
+    const response = await fetch(PUBLIC_TRACKS_URL, { cache: "no-store" });
+    if (!response.ok) throw new Error("No public tracks manifest found.");
+
+    const publicTracks = await response.json();
+    const normalizedPublicTracks = publicTracks.map((track, index) => ({
+      id: `public-${track.id || index}`,
+      file: null,
+      name: track.name || "Untitled Public Track",
+      artist: track.artist || "",
+      album: track.album || "",
+      summary: track.summary || "",
+      lyrics: track.lyrics || "",
+      coverFile: null,
+      coverUrl: track.coverUrl || "",
+      coverName: "",
+      size: 0,
+      url: track.url,
+      isPublic: true
+    }));
+
+    tracks = [
+      ...tracks.filter((track) => !track.isPublic),
+      ...normalizedPublicTracks
+    ];
+
+    if (!activeTrackId && tracks.length) {
+      activeTrackId = tracks[0].id;
+      audioPlayer.src = tracks[0].url;
+      nowPlaying.textContent = `Selected: ${tracks[0].name}`;
+    }
+
+    render();
+  } catch (error) {
+    console.info(error.message);
+  }
 }
 
 function openDatabase() {
@@ -108,11 +155,17 @@ async function loadSavedTracks() {
       if (track.coverUrl) URL.revokeObjectURL(track.coverUrl);
     });
 
-    tracks = savedTracks.map((track) => ({
+    const localTracks = savedTracks.map((track) => ({
       ...track,
       url: URL.createObjectURL(track.file),
-      coverUrl: track.coverFile ? URL.createObjectURL(track.coverFile) : ""
+      coverUrl: track.coverFile ? URL.createObjectURL(track.coverFile) : "",
+      isPublic: false
     }));
+
+    tracks = [
+      ...tracks.filter((track) => track.isPublic),
+      ...localTracks
+    ];
 
     activeTrackId = tracks[0]?.id || null;
     if (activeTrackId) {
@@ -157,7 +210,7 @@ async function saveLibrary() {
       const store = transaction.objectStore(TRACK_STORE);
 
       store.clear();
-      tracks.forEach((track) => {
+      tracks.filter((track) => !track.isPublic).forEach((track) => {
         store.put({
           id: track.id,
           file: track.file,
@@ -226,22 +279,29 @@ function playTrack(trackId) {
 }
 
 function clearLibrary() {
-  const firstConfirm = confirm("Are you sure you want to delete the whole ProjectGXRO library?");
+  const firstConfirm = confirm("Are you sure you want to delete your locally saved ProjectGXRO library?");
   if (!firstConfirm) return;
 
-  const secondConfirm = confirm("This will remove every saved MP3, cover image, and song detail from this browser. Delete everything?");
+  const secondConfirm = confirm("This will remove every locally saved MP3, cover image, and song detail from this browser. Public website tracks will stay online. Delete local songs?");
   if (!secondConfirm) return;
 
-  tracks.forEach((track) => {
+  tracks.filter((track) => !track.isPublic).forEach((track) => {
     URL.revokeObjectURL(track.url);
     if (track.coverUrl) URL.revokeObjectURL(track.coverUrl);
   });
-  tracks = [];
-  activeTrackId = null;
+
+  tracks = tracks.filter((track) => track.isPublic);
+  activeTrackId = tracks[0]?.id || null;
   playingTrackId = null;
-  audioPlayer.removeAttribute("src");
-  audioPlayer.load();
-  nowPlaying.textContent = "No track selected";
+  if (activeTrackId) {
+    const firstTrack = tracks.find((track) => track.id === activeTrackId);
+    audioPlayer.src = firstTrack.url;
+    nowPlaying.textContent = `Selected: ${firstTrack.name}`;
+  } else {
+    audioPlayer.removeAttribute("src");
+    audioPlayer.load();
+    nowPlaying.textContent = "No track selected";
+  }
   searchInput.value = "";
   render();
   scheduleSave();
@@ -256,10 +316,10 @@ function render(includeDetails = true) {
       track.name,
       track.artist,
       track.album,
-      track.file.name
+      getTrackFileName(track)
     ].some((value) => value.toLowerCase().includes(query));
   });
-  const bytes = tracks.reduce((sum, track) => sum + track.size, 0);
+  const bytes = tracks.filter((track) => !track.isPublic).reduce((sum, track) => sum + track.size, 0);
 
   trackCount.textContent = tracks.length;
   totalSize.textContent = formatSize(bytes);
@@ -296,7 +356,7 @@ function render(includeDetails = true) {
       </button>
       <div>
         <div class="song-name">${escapeHtml(track.name)}</div>
-        <div class="song-meta">${escapeHtml(track.artist || "Unknown artist")} - ${escapeHtml(track.album || track.file.name)} - ${formatSize(track.size)}</div>
+        <div class="song-meta">${escapeHtml(track.artist || "Unknown artist")} - ${escapeHtml(track.album || getTrackFileName(track))} - ${track.isPublic ? "Public track" : formatSize(track.size)}</div>
       </div>
       <span class="song-index">#${tracks.indexOf(track) + 1}</span>
     </article>
@@ -326,8 +386,9 @@ function renderDetails() {
         </div>
         <label class="form-row">
           <span>Cover image</span>
-          <input class="cover-input" id="coverInput" type="file" accept="image/*">
+          <input class="cover-input" id="coverInput" type="file" accept="image/*" ${track.isPublic ? "disabled" : ""}>
         </label>
+        ${track.isPublic ? `<p class="public-note">This is a public website track. Edit it in public-tracks.json.</p>` : ""}
       </div>
 
       <div class="details-form">
@@ -335,27 +396,27 @@ function renderDetails() {
 
         <div class="form-row">
           <label for="songName">Song name</label>
-          <input class="text-field" id="songName" data-field="name" type="text" value="${escapeAttribute(track.name)}">
+          <input class="text-field" id="songName" data-field="name" type="text" value="${escapeAttribute(track.name)}" ${track.isPublic ? "disabled" : ""}>
         </div>
 
         <div class="form-row">
           <label for="songArtist">Artist</label>
-          <input class="text-field" id="songArtist" data-field="artist" type="text" value="${escapeAttribute(track.artist)}">
+          <input class="text-field" id="songArtist" data-field="artist" type="text" value="${escapeAttribute(track.artist)}" ${track.isPublic ? "disabled" : ""}>
         </div>
 
         <div class="form-row">
           <label for="songAlbum">Album</label>
-          <input class="text-field" id="songAlbum" data-field="album" type="text" value="${escapeAttribute(track.album)}">
+          <input class="text-field" id="songAlbum" data-field="album" type="text" value="${escapeAttribute(track.album)}" ${track.isPublic ? "disabled" : ""}>
         </div>
 
         <div class="form-row">
           <label for="songSummary">Synopsis</label>
-          <textarea class="text-area" id="songSummary" data-field="summary">${escapeHtml(track.summary)}</textarea>
+          <textarea class="text-area" id="songSummary" data-field="summary" ${track.isPublic ? "disabled" : ""}>${escapeHtml(track.summary)}</textarea>
         </div>
 
         <div class="form-row">
           <label for="songLyrics">Lyrics</label>
-          <textarea class="text-area lyrics-area" id="songLyrics" data-field="lyrics">${escapeHtml(track.lyrics)}</textarea>
+          <textarea class="text-area lyrics-area" id="songLyrics" data-field="lyrics" ${track.isPublic ? "disabled" : ""}>${escapeHtml(track.lyrics)}</textarea>
         </div>
       </div>
     </div>
@@ -383,6 +444,7 @@ function unlockProjectGXRO() {
 function updateActiveTrack(field, value) {
   const track = tracks.find((item) => item.id === activeTrackId);
   if (!track) return;
+  if (track.isPublic) return;
 
   track[field] = field === "name" ? value.trim() || cleanName(track.file.name) : value;
 
@@ -399,6 +461,7 @@ function updateActiveTrack(field, value) {
 function updateCover(file) {
   const track = tracks.find((item) => item.id === activeTrackId);
   if (!track || !file) return;
+  if (track.isPublic) return;
 
   if (track.coverUrl) URL.revokeObjectURL(track.coverUrl);
   track.coverFile = file;
@@ -525,6 +588,7 @@ dropZone.addEventListener("drop", (event) => {
 });
 
 loadSavedTracks();
+loadPublicTracks();
 
 const requestedTab = new URLSearchParams(window.location.search).get("tab");
 if (requestedTab && gxroUnlocked) {

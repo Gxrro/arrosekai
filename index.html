@@ -4,33 +4,168 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arro-Sekai</title>
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=3">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=4">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="site-shell">
-    <header class="topbar">
-      <div>
-        <h1>Arro-Sekai</h1>
-        <p>Welcome to Arro-Sekai!</p>
+  <div class="portfolio-shell">
+    <aside class="sidebar" aria-label="Arro-Sekai sidebar">
+      <div class="identity">
+        <p class="est"><span class="leaf">◇</span> EST. 2024</p>
+        <a class="site-name" href="#home">Arro-Sekai</a>
       </div>
 
-      <nav class="tabs" aria-label="Arrosekai navigation">
-        <a class="tab active" href="index.html">Home</a>
-        <a class="tab" href="ProjectGXRO/index.html?tab=gxro-home">Project GXRO</a>
+      <nav class="side-nav" aria-label="Portfolio sections">
+        <a class="nav-item active" href="#home" data-section-link="home"><span class="nav-icon">⌂</span>Home<span class="nav-dot"></span></a>
+        <a class="nav-item" href="#about" data-section-link="about"><span class="nav-icon">○</span>About</a>
+        <a class="nav-item" href="#education" data-section-link="education"><span class="nav-icon">▱</span>Education</a>
+        <a class="nav-item" href="#experience" data-section-link="experience"><span class="nav-icon">▥</span>Experience</a>
+        <a class="nav-item" href="#music" data-section-link="music"><span class="nav-icon">♪</span>Music Covers</a>
+        <a class="nav-item" href="#hobbies" data-section-link="hobbies"><span class="nav-icon">♡</span>Hobbies</a>
+        <a class="nav-item" href="#talents" data-section-link="talents"><span class="nav-icon">☆</span>Talents</a>
+        <a class="nav-item" href="#portfolio" data-section-link="portfolio"><span class="nav-icon">▣</span>Portfolio</a>
       </nav>
-    </header>
 
-    <main class="home">
-      <section class="welcome">
-        <p class="eyebrow">Home</p>
-        <h2>Welcome to Arro-Sekai!</h2>
-        <p>
-          This is the main home page for arrosekai.com. Look out for future updates.
+      <div class="sidebar-footer">
+        <a class="gxro-link" href="ProjectGXRO/index.html?tab=gxro-home">Project GXRO</a>
+        <p>brewing something warm</p>
+      </div>
+    </aside>
+
+    <main class="content">
+      <section class="hero-section section-panel" id="home" data-section="home">
+        <div class="seal" aria-hidden="true">
+          <span>◇</span>
+        </div>
+        <p class="hero-kicker">Artist · Creator · Dreamer</p>
+        <h1><span>Arro</span>-Sekai</h1>
+        <p class="hero-copy">
+          Music cover artist, creative soul, and multi-hyphenate human being.
+          Making things that feel like something warm, one cup at a time.
         </p>
-        <a class="button" href="ProjectGXRO/index.html?tab=gxro-home">Open Project GXRO</a>
+
+        <div class="social-row" aria-label="Social links">
+          <a class="social-chip" href="#contact"><span>in</span>LinkedIn</a>
+          <a class="social-chip" href="#contact"><span>◎</span>Instagram</a>
+          <a class="social-chip" href="#music"><span>▻</span>YouTube</a>
+          <a class="social-chip" href="#music"><span>♫</span>Spotify</a>
+          <a class="social-chip" href="#contact"><span>◌</span>Discord</a>
+        </div>
+
+        <div class="scroll-note" aria-hidden="true">
+          <span></span>
+          scroll to explore
+          <span></span>
+        </div>
+      </section>
+
+      <section class="section-panel split-section" id="about" data-section="about">
+        <div>
+          <p class="section-kicker">About</p>
+          <h2>A cozy corner for creative chaos.</h2>
+        </div>
+        <div class="text-card">
+          <p>
+            Arro-Sekai is a portfolio-style home for projects, covers, parodies,
+            music ideas, and personal experiments. The public side stays calm and
+            cafe-like while the private Project GXRO library stays protected.
+          </p>
+        </div>
+      </section>
+
+      <section class="section-panel card-grid-section" id="education" data-section="education">
+        <p class="section-kicker">Education</p>
+        <h2>Learning, building, and improving the craft.</h2>
+        <div class="card-grid">
+          <article class="soft-card">
+            <span>01</span>
+            <h3>Creative Practice</h3>
+            <p>Building songs, covers, ideas, visuals, and web projects through repetition.</p>
+          </article>
+          <article class="soft-card">
+            <span>02</span>
+            <h3>Web Projects</h3>
+            <p>Learning HTML, CSS, GitHub, Cloudflare, and how to publish work online.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-panel split-section" id="experience" data-section="experience">
+        <div>
+          <p class="section-kicker">Experience</p>
+          <h2>Projects with personality.</h2>
+        </div>
+        <div class="timeline">
+          <article>
+            <span>2024 - Now</span>
+            <h3>Arro-Sekai</h3>
+            <p>A main portfolio site with a warm visual identity and separate project areas.</p>
+          </article>
+          <article>
+            <span>Featured</span>
+            <h3>Project GXRO</h3>
+            <p>A password-protected MP3 library for covers, parodies, lyrics, covers, and public tracks.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-panel card-grid-section" id="music" data-section="music">
+        <p class="section-kicker">Music Covers</p>
+        <h2>Where the songs live.</h2>
+        <div class="feature-band">
+          <div>
+            <h3>Project GXRO</h3>
+            <p>Open the private music area to add MP3s, cover images, lyrics, albums, artists, and song summaries.</p>
+          </div>
+          <a class="button" href="ProjectGXRO/index.html?tab=gxro-home">Enter Project GXRO</a>
+        </div>
+      </section>
+
+      <section class="section-panel card-grid-section" id="hobbies" data-section="hobbies">
+        <p class="section-kicker">Hobbies</p>
+        <h2>Small things that keep the world interesting.</h2>
+        <div class="card-grid three">
+          <article class="soft-card"><h3>Music</h3><p>Covers, parody concepts, and lyric experiments.</p></article>
+          <article class="soft-card"><h3>Design</h3><p>Soft palettes, cozy layouts, and visual identity ideas.</p></article>
+          <article class="soft-card"><h3>Websites</h3><p>Turning ideas into pages people can actually visit.</p></article>
+        </div>
+      </section>
+
+      <section class="section-panel card-grid-section" id="talents" data-section="talents">
+        <p class="section-kicker">Talents</p>
+        <h2>Creative range, served warm.</h2>
+        <div class="card-grid three">
+          <article class="soft-card"><h3>Writing</h3><p>Summaries, lyrics, concepts, and strange little project worlds.</p></article>
+          <article class="soft-card"><h3>Performance</h3><p>Music cover energy with personality baked in.</p></article>
+          <article class="soft-card"><h3>Publishing</h3><p>GitHub and Cloudflare workflow for getting updates online.</p></article>
+        </div>
+      </section>
+
+      <section class="section-panel split-section" id="portfolio" data-section="portfolio">
+        <div>
+          <p class="section-kicker">Portfolio</p>
+          <h2>Featured work</h2>
+        </div>
+        <div class="portfolio-card">
+          <p class="project-label">Password: december</p>
+          <h3>Project GXRO</h3>
+          <p>A private/public MP3 library experience with track details, lyrics, images, playback, and saved local uploads.</p>
+          <a class="button" href="ProjectGXRO/index.html?tab=gxro-home">Open Project</a>
+        </div>
+      </section>
+
+      <section class="section-panel split-section contact-section" id="contact" data-section="contact">
+        <div>
+          <p class="section-kicker">Contact</p>
+          <h2>Pull up a chair.</h2>
+        </div>
+        <div class="text-card">
+          <p>Add your socials, email, or Discord here whenever you want. For now, this page is ready as the public contact space for Arro-Sekai.</p>
+        </div>
       </section>
     </main>
   </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

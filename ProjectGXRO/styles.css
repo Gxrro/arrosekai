@@ -7,8 +7,8 @@
   --text: #171916;
   --muted: #64685f;
   --line: #d7d0bf;
-  --accent: #26b21f;
-  --accent-dark: #373b33;
+  --accent: #738a55;
+  --accent-dark: #3f5131;
   --accent-soft: #e4ead8;
   --ink: #171916;
   --cream: #fff8e8;
@@ -83,7 +83,7 @@ body {
 
 .password-input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(29, 118, 111, 0.16);
+  box-shadow: 0 0 0 3px rgba(115, 138, 85, 0.18);
 }
 
 .password-error {
@@ -400,6 +400,17 @@ input[type="file"].cover-input {
   padding: 11px 12px;
 }
 
+.public-note {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.4;
+  padding: 11px 12px;
+}
+
 .library-header {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -424,7 +435,7 @@ input[type="file"].cover-input {
 .text-field:focus,
 .text-area:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(29, 118, 111, 0.16);
+  box-shadow: 0 0 0 3px rgba(115, 138, 85, 0.18);
 }
 
 .clear {
@@ -567,7 +578,7 @@ audio {
 .song:hover,
 .song.active {
   border-color: var(--accent);
-  background: #f7fffd;
+  background: #fbf8ef;
 }
 
 .play-button {

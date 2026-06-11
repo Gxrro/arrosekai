@@ -1,0 +1,12 @@
+[
+  {
+    "id": "arro-cooking-show",
+    "name": "Arro Cooking Show",
+    "artist": "GXRO",
+    "album": "Project GXRO",
+    "summary": "A public Project GXRO track.",
+    "lyrics": "Put lyrics here.",
+    "url": "public-mp3/arro-cooking-show.mp3",
+    "coverUrl": "public-covers/arro-cooking-show.jpg"
+  }
+]
