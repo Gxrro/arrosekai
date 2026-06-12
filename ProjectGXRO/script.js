@@ -22,13 +22,19 @@ const DB_VERSION = 1;
 const TRACK_STORE = "tracks";
 const GXRO_PASSWORD = "december";
 const PUBLIC_TRACKS_URL = "public-tracks.json";
+const pageParams = new URLSearchParams(window.location.search);
+const forcePasswordScreen = pageParams.get("lock") === "1";
+
+if (forcePasswordScreen) {
+  sessionStorage.removeItem("projectGXROUnlocked");
+}
 
 let tracks = [];
 let activeTrackId = null;
 let playingTrackId = null;
 let saveTimer = null;
 let dbPromise = null;
-let gxroUnlocked = sessionStorage.getItem("projectGXROUnlocked") === "true";
+let gxroUnlocked = !forcePasswordScreen && sessionStorage.getItem("projectGXROUnlocked") === "true";
 
 function cleanName(fileName) {
   return fileName.replace(/\.mp3$/i, "");
@@ -441,6 +447,9 @@ function unlockProjectGXRO() {
   sessionStorage.setItem("projectGXROUnlocked", "true");
   passwordScreen.classList.add("unlocked");
   appShell.classList.remove("locked");
+  if (forcePasswordScreen) {
+    history.replaceState(null, "", window.location.pathname);
+  }
   switchTab("gxro-home");
 }
 

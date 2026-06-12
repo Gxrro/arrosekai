@@ -1,4 +1,4 @@
-const activeNavLinks = document.querySelectorAll(".nav-item[data-section-link], .gxro-link[data-section-link], .site-name[data-section-link]");
+const activeNavLinks = document.querySelectorAll(".nav-item[data-section-link], .site-name[data-section-link]");
 const sectionTriggers = document.querySelectorAll("[data-section-link]");
 const sections = document.querySelectorAll("[data-section]");
 
