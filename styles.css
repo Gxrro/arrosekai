@@ -356,6 +356,13 @@ h3 {
   color: var(--panel-light);
 }
 
+.social-chip img {
+  width: 21px;
+  height: 21px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
 .social-chip span {
   color: var(--green);
   font-weight: 900;
