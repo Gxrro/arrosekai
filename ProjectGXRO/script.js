@@ -22,6 +22,7 @@ const DB_VERSION = 1;
 const TRACK_STORE = "tracks";
 const GXRO_PASSWORD = "december";
 const PUBLIC_TRACKS_URL = "public-tracks.json";
+const R2_TRACKS_URL = "/api/gxro/tracks";
 const pageParams = new URLSearchParams(window.location.search);
 const forcePasswordScreen = pageParams.get("lock") === "1";
 
@@ -88,12 +89,29 @@ function addFiles(fileList) {
 }
 
 async function loadPublicTracks() {
-  try {
-    const response = await fetch(PUBLIC_TRACKS_URL, { cache: "no-store" });
-    if (!response.ok) throw new Error("No public tracks manifest found.");
+  const publicTrackSources = [];
 
-    const publicTracks = await response.json();
-    const normalizedPublicTracks = publicTracks.map((track, index) => ({
+  for (const url of [R2_TRACKS_URL, PUBLIC_TRACKS_URL]) {
+    try {
+      const response = await fetch(url, { cache: "no-store" });
+      if (!response.ok) throw new Error(`No public tracks found at ${url}.`);
+
+      const publicTracks = await response.json();
+      if (Array.isArray(publicTracks)) publicTrackSources.push(...publicTracks);
+    } catch (error) {
+      console.info(error.message);
+    }
+  }
+
+  const seenTracks = new Set();
+  const normalizedPublicTracks = publicTrackSources
+    .filter((track, index) => {
+      const key = track.id || track.url || `track-${index}`;
+      if (seenTracks.has(key)) return false;
+      seenTracks.add(key);
+      return true;
+    })
+    .map((track, index) => ({
       id: `public-${track.id || index}`,
       file: null,
       name: track.name || "Untitled Public Track",
@@ -109,21 +127,18 @@ async function loadPublicTracks() {
       isPublic: true
     }));
 
-    tracks = [
-      ...tracks.filter((track) => !track.isPublic),
-      ...normalizedPublicTracks
-    ];
+  tracks = [
+    ...tracks.filter((track) => !track.isPublic),
+    ...normalizedPublicTracks
+  ];
 
-    if (!activeTrackId && tracks.length) {
-      activeTrackId = tracks[0].id;
-      audioPlayer.src = tracks[0].url;
-      nowPlaying.textContent = `Selected: ${tracks[0].name}`;
-    }
-
-    render();
-  } catch (error) {
-    console.info(error.message);
+  if (!activeTrackId && tracks.length) {
+    activeTrackId = tracks[0].id;
+    audioPlayer.src = tracks[0].url;
+    nowPlaying.textContent = `Selected: ${tracks[0].name}`;
   }
+
+  render();
 }
 
 function openDatabase() {
@@ -427,6 +442,10 @@ function renderDetails() {
           <label for="songLyrics">Lyrics</label>
           <textarea class="text-area lyrics-area" id="songLyrics" data-field="lyrics" ${track.isPublic ? "disabled" : ""}>${escapeHtml(track.lyrics)}</textarea>
         </div>
+        ${track.isPublic ? "" : `
+          <button class="button publish-button" type="button" data-publish-track>Publish to website</button>
+          <p class="public-note" id="publishStatus">This sends the MP3 and song details to Cloudflare R2 for everyone who opens Project GXRO.</p>
+        `}
       </div>
     </div>
   `;
@@ -481,6 +500,52 @@ function updateCover(file) {
   track.coverName = file.name;
   render();
   scheduleSave();
+}
+
+function setPublishStatus(message, isError = false) {
+  const publishStatus = document.getElementById("publishStatus");
+  if (!publishStatus) return;
+
+  publishStatus.textContent = message;
+  publishStatus.classList.toggle("error", isError);
+}
+
+async function publishActiveTrack() {
+  const track = tracks.find((item) => item.id === activeTrackId);
+  if (!track || track.isPublic) return;
+
+  const confirmed = confirm(`Publish "${track.name}" to Project GXRO so everyone can see it?`);
+  if (!confirmed) return;
+
+  setPublishStatus("Publishing to R2...");
+
+  try {
+    const formData = new FormData();
+    formData.append("password", GXRO_PASSWORD);
+    formData.append("name", track.name);
+    formData.append("artist", track.artist);
+    formData.append("album", track.album);
+    formData.append("summary", track.summary);
+    formData.append("lyrics", track.lyrics);
+    formData.append("mp3", track.file, track.file.name);
+    if (track.coverFile) formData.append("cover", track.coverFile, track.coverFile.name);
+
+    const response = await fetch(R2_TRACKS_URL, {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) {
+      const message = await response.text();
+      throw new Error(message || "R2 upload failed.");
+    }
+
+    await loadPublicTracks();
+    setPublishStatus("Published. The track is now loaded from the website library.");
+  } catch (error) {
+    console.error(error);
+    setPublishStatus(`${error.message} Make sure Cloudflare Pages has the PROJECT_GXRO_BUCKET R2 binding.`, true);
+  }
 }
 
 function setSaveStatus(message) {
@@ -563,6 +628,12 @@ detailsPanel.addEventListener("input", (event) => {
 detailsPanel.addEventListener("change", (event) => {
   if (event.target.id === "coverInput") {
     updateCover(event.target.files[0]);
+  }
+});
+
+detailsPanel.addEventListener("click", (event) => {
+  if (event.target.closest("[data-publish-track]")) {
+    publishActiveTrack();
   }
 });
 

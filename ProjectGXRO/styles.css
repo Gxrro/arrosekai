@@ -419,6 +419,16 @@ input[type="file"].cover-input {
   padding: 11px 12px;
 }
 
+.public-note.error {
+  border-color: rgba(255, 107, 107, 0.55);
+  background: rgba(255, 107, 107, 0.12);
+  color: #ffb1b1;
+}
+
+.publish-button {
+  width: 100%;
+}
+
 .library-header {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

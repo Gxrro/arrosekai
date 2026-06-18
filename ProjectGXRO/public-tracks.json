@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": "judegenment",
+    "name": "JUDEGENMENT",
+    "artist": "GXRO",
+    "album": "Project GXRO",
+    "summary": "A Project GXRO track built from Judgement Degen with GXRO interjections.",
+    "lyrics": "Lyrics coming soon.",
+    "url": "public-mp3/judegenment.mp3",
+    "coverUrl": "assets/project-gxro-logo.png"
+  }
+]
